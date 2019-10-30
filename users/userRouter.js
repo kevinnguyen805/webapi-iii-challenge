@@ -96,7 +96,7 @@ router.delete('/:id', validateUserId, (req, res) => {
 
 
 
-
+// TODO DONE
 // * UPDATE user by ID
 router.put('/:id', validateUserId, (req, res) => {
      const id = req.params.id
