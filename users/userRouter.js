@@ -125,8 +125,12 @@ function validateUserId(req, res, next) {
      const id = req.params.id
      db.getById(id)
      .then(user => {
-          req.user = id;
-          next();
+          if(user){
+               req.user = id;
+               next();
+          } else {
+               res.status(404).json({message: "User ID does not exist"})
+          }
      })
      .catch(error => {
           res.status(400).json({message: "Invalid user ID"})
