@@ -2,6 +2,7 @@ const express = require('express');
 const postDB = require('./postDb.js')
 const router = express.Router();
 
+// TODO DONE
 router.get('/', (req, res) => {
      postDB.get()
      .then(posts => {
@@ -12,14 +13,16 @@ router.get('/', (req, res) => {
      })
 });
 
+// TODO DONE
 router.get('/:id', (req, res) => {
      postDB.getById(req.params.id)
      .then(post => {
-          if(post.length > 0){
-               res.status(200).json(post)
-          } else {
-               res.status(404).json({message: "The post with specified ID does not exist"})
-          }
+          res.status(200).json(post)
+          // if(post.length > 0){
+          //      res.status(200).json(post)
+          // } else {
+          //      res.status(404).json({message: "The post with specified ID does not exist"})
+          // }
      })
      .catch(error => {
           res.status(500).json({error: "Posts from user were unsuccessfully retrieved"})
@@ -27,20 +30,24 @@ router.get('/:id', (req, res) => {
 });
 
 
+// TODO DONE
 router.delete('/:id', (req, res) => {
      postDB.remove(req.params.id)
      .then(post => {
-          if (post > 0){
-               res.status(200).json(post)
-          } else {
-               res.status(404).json({message: "The post with specified ID does not exist"})
-          }
+          res.status(200).json(post)
+          // if (post > 0){
+          //      res.status(200).json(post)
+          // } else {
+          //      res.status(404).json({message: "The post with specified ID does not exist"})
+          // }
      })
      .catch(error => {
           res.status(500).json({error: "Post failed to delete"})
      })
 });
 
+
+// TODO DONE
 router.put('/:id', (req, res) => {
      postDB.update(req.params.id, req.body)
      .then(post => {
