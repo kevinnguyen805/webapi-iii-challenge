@@ -18,8 +18,8 @@ router.post('/:id/posts', validatePost, (req, res) => {
 
 // * GET all users
 router.get('/', (req, res) => {
-     const query = req.query
-     db.get(query)
+     
+     db.get()
      .then(users => {
           res.status(200).json(users)
      })
