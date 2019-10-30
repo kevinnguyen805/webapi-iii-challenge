@@ -3,38 +3,19 @@ const helmet = require('helmet')
 const morgan = require('morgan')
 
 // const postRouter = require('/posts/postRouter.js')
-// const userRouter = require('/users/userRouter.js')
+const userRouter = require('./users/userRouter.js')
+
 
 const server = express();
 
 
-server.get('/', (req, res) => {
-  res.send(`<h2>Let's write some middleware!</h2>`)
-});
 
 //custom middleware
-
+// TODO DONE
 function logger(req, res, next) {
   console.log(` ${req.method} to ${req.url} on [${new Date().toISOString()}]`);
   next();
 };
-
-
-// TODO 
-function validateUserId(req,res,next){
-  const id = req.params.id
-
-  if (user_id === id){
-    req.user = id
-    next();
-  } else{
-    res.status(400).json({message: "invalid user id"})
-  }
-}
-
-
-
-
 
 
 
@@ -46,7 +27,11 @@ server.use(morgan('dev'))
 server.use(logger)
 
 // server.use('', postRouter);
-// server.use('/api/user', userRouter);
+server.use('/api/users', userRouter);
+
+server.get('/', (req, res) => {
+  res.send(`<h2>Let's write some middleware!</h2>`)
+});
 
 module.exports = server;
 
