@@ -2,14 +2,14 @@ const express = require('express');
 const db = require('./userDb.js')
 const router = express.Router();
 
-router.post('/', (req, res) => {
+router.post('/', validateUser, (req, res) => {
      
      
 });
 
 
 
-router.post('/:id/posts', (req, res) => {
+router.post('/:id/posts', validatePost, (req, res) => {
 
 });
 
@@ -91,11 +91,31 @@ function validateUserId(req, res, next) {
 };
 
 function validateUser(req, res, next) {
+     const newUser = req.body
 
+     if (newUser) {
+          if (!newUser.text) {
+               res.status(401).json({ message: "missing required name field" })
+          } else {
+               next();
+          }
+     } else {
+          res.status(400).json({ message: "missing post data" })
+     }
 };
 
 function validatePost(req, res, next) {
+     const newPost = req.body
 
+     if (newPost) {
+          if (newPost.text) {
+               next();
+          } else {
+               res.status(400).json({ message: "missing required text field" })
+          }
+     } else {
+          res.status(400).json({ message: "missing post data" })
+     }
 };
 
 module.exports = router;
