@@ -15,7 +15,11 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
      postDB.getById(req.params.id)
      .then(post => {
-          res.status(200).json(post)
+          if(post.length > 0){
+               res.status(200).json(post)
+          } else {
+               res.status(404).json({message: "The post with specified ID does not exist"})
+          }
      })
      .catch(error => {
           res.status(500).json({error: "Posts from user were unsuccessfully retrieved"})
@@ -26,7 +30,11 @@ router.get('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
      postDB.remove(req.params.id)
      .then(post => {
-          res.status(200).json(post)
+          if (post > 0){
+               res.status(200).json(post)
+          } else {
+               res.status(404).json({message: "The post with specified ID does not exist"})
+          }
      })
      .catch(error => {
           res.status(500).json({error: "Post failed to delete"})
@@ -36,7 +44,12 @@ router.delete('/:id', (req, res) => {
 router.put('/:id', (req, res) => {
      postDB.update(req.params.id, req.body)
      .then(post => {
-          res.status(200).json(post)
+          if(post > 0){
+               postDB.getById(req.params.id)
+               .then(updatedPost => res.status(200).json(updatedPost))
+          } else{
+               res.status(404).json({ message: "The post with the specified ID does not exist."})
+          }
      })
      .catch(error => {
           res.status(500).json({error: "Post failed to update"})
