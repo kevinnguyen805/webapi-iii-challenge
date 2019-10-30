@@ -16,10 +16,27 @@ router.post('/', validateUser, (req, res) => {
      })
 });
 
-
+// TODO DONE
 // * POST new post according to user ID
 router.post('/:id/posts', validatePost, (req, res) => {
+     const id = req.params.id
+     const newPost = {...req.body, user_id:id}
 
+     db.getById(id)
+     .then(user => {
+          if(user){
+               postDB.insert(newPost)
+               .then(newPost => {
+                    res.status(200).json(newPost)
+               })
+               .catch(error => res.status(500).json({message: "New post failed to post"}))
+          } else {
+               res.status(404).json({message: "User with id was not found"})
+          }
+     })
+     .catch(error => {
+          res.status(500).json({message: "New post failed to post"})
+     })
 });
 
 
@@ -131,7 +148,7 @@ function validateUser(req, res, next) {
      }
 };
 
-
+// TODO DONE
 function validatePost(req, res, next) {
      const newPost = req.body
 
